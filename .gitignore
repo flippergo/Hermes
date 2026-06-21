@@ -1,0 +1,4 @@
+.env
+.ipynb_checkpoints/
+.playwright-mcp/
+__pycache__/
