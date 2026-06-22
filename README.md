@@ -69,6 +69,19 @@ GUI_INFO = start_gui(GUI_MODE)
 Colabプロキシ固有のHostヘッダーを受け入れるためVM内では`--insecure`を使用しますが、ポート自体は外部公開せず、アクセス制御はColabプロキシが担当します。
 追加の秘密情報は不要です。表示されたリンクをブラウザで開くと、管理画面とChatタブを利用できます。
 
+### Artifactsプレビュー
+
+Dashboardには`Artifacts`タブを追加しています。Hermesが生成したグラフや解析結果を
+`/content/hermes-workspace/artifacts` 配下へ保存すると、同じDashboard上で一覧とプレビューを確認できます。
+
+- Plotly: `fig.write_html("/content/hermes-workspace/artifacts/plot.html", include_plotlyjs="cdn")`
+- Matplotlib: `plt.savefig("/content/hermes-workspace/artifacts/plot.png", dpi=160, bbox_inches="tight")`
+- その他: `.html` / `.htm` / `.png` / `.jpg` / `.jpeg` / `.gif` / `.svg` / `.webp` / `.csv` / `.json` / `.txt` / `.md`
+
+`.html`はsandbox付きiframe、画像は画像ビュー、CSV/JSON/TXT/MDはテキストとして表示されます。
+Artifactsディレクトリはworkspace配下なので、`checkpoint()`でGoogle Driveの
+`MyDrive/Hermes/workspace/artifacts`へ保存されます。
+
 ### 手元のDesktop App
 
 `desktop-app`はDashboardをBasic認証付きで起動し、Tailscale Serveで同じtailnetだけに公開します。
