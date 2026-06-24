@@ -2,10 +2,11 @@
 
 ## Dashboard PTY Control Sequence Submitted As Prompt
 
-- First observed: 2026-06-25
-- Symptom: dashboard PTY automation can submit resize/control bytes before the Hermes TUI is ready. The unintended session may start with prompt text such as `(de)`.
-- Impact: daily training can create a wrong session and leave unrelated workspace artifacts, even if the intended task later succeeds.
-- Mitigation: do not send resize/control bytes as user input, wait for the PTY prompt before paste/submission, verify `/api/sessions/{id}/messages` immediately after submission, and delete unintended artifacts before `checkpoint()`.
+- 初回観測日: 2026-06-25
+- 状態: 対応中。`automation/hermes_daily_run.md`に再発防止手順を追加済み。
+- 兆候: Hermes TUIがreadyになる前にdashboard PTYへresize/control sequenceを送ると、`(de)` のような制御断片がプロンプト本文として解釈される。
+- 影響: 意図しないセッションが作られ、日次課題とは別の成果物がworkspaceに残ることがある。
+- 次回の対策候補: PTYには課題本文だけを送る。送信直後に `/api/sessions/{id}/messages` で意図した課題が1回だけ入ったことを確認し、混入成果物があれば `checkpoint()` 前に削除する。
 
 ## CLI Output Contract Not Tested
 
