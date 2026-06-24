@@ -2,4 +2,5 @@
 .ipynb_checkpoints/
 .playwright-cli/
 .playwright-mcp/
+automation/logs/
 __pycache__/
