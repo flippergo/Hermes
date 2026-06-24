@@ -1,5 +1,12 @@
 # Hermes Failure Patterns
 
+## Dashboard PTY Control Sequence Submitted As Prompt
+
+- First observed: 2026-06-25
+- Symptom: dashboard PTY automation can submit resize/control bytes before the Hermes TUI is ready. The unintended session may start with prompt text such as `(de)`.
+- Impact: daily training can create a wrong session and leave unrelated workspace artifacts, even if the intended task later succeeds.
+- Mitigation: do not send resize/control bytes as user input, wait for the PTY prompt before paste/submission, verify `/api/sessions/{id}/messages` immediately after submission, and delete unintended artifacts before `checkpoint()`.
+
 ## CLI Output Contract Not Tested
 
 - 初回観測日: 2026-06-24
