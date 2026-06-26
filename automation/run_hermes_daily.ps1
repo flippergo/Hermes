@@ -31,11 +31,11 @@ function Resolve-CodexExecutable {
 
     $ExtensionRoot = Join-Path $env:USERPROFILE ".vscode\extensions"
     if (Test-Path -LiteralPath $ExtensionRoot) {
-        $Candidates = Get-ChildItem -LiteralPath $ExtensionRoot -Directory -Filter "openai.chatgpt-*-win32-x64" |
+        $Candidates = @(Get-ChildItem -LiteralPath $ExtensionRoot -Directory -Filter "openai.chatgpt-*-win32-x64" |
             Sort-Object Name -Descending |
             ForEach-Object { Join-Path $_.FullName "bin\windows-x86_64\codex.exe" } |
-            Where-Object { Test-Path -LiteralPath $_ }
-        if ($Candidates) {
+            Where-Object { Test-Path -LiteralPath $_ })
+        if ($Candidates.Count -gt 0) {
             return $Candidates[0]
         }
     }
