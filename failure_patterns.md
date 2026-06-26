@@ -1,5 +1,13 @@
 # Hermes Failure Patterns
 
+## Dashboard PTY Control Sequence Submitted As Prompt
+
+- 初回観測日: 2026-06-25
+- 状態: 対応済み候補。2026-06-26は専用 `/api/pty` WebSocket channelとSessions API確認で再発なし。
+- 兆候: Hermes TUIがreadyになる前にdashboard PTYへresize/control sequenceを送ると、`(de)` のような制御断片がプロンプト本文として解釈される。
+- 影響: 意図しないセッションが作られ、日次課題とは別の成果物がworkspaceに残ることがある。
+- 次回の対策候補: PTYには課題本文だけを送る。必要ならEnterのみを追加送信して確定する。送信直後に `/api/sessions/{id}/messages` で意図した課題が1回だけ入ったことを確認し、混入成果物があれば `checkpoint()` 前に削除する。
+
 ## CLI Output Contract Not Tested
 
 - 初回観測日: 2026-06-24
