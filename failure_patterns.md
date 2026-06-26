@@ -1,5 +1,13 @@
 # Hermes Failure Patterns
 
+## Workspace File Search False Negative
+
+- 初回観測日: 2026-06-27
+- 状態: 候補
+- 兆候: `/content/hermes-workspace` に既存ファイルが存在するのに、Hermesの `search_files` が `{"total_count": 0}` を返し、存在しないと判断する。
+- 影響: 既存コード修正課題で、実装・テストに入る前に誤って停止する。
+- 次回の対策候補: 既存ファイル前提の課題では、Codexが課題投入前にdashboard Files APIまたはNotebook上の `Path.exists()` で前提を確認する。Hermesには、`search_files` が0件でも停止前に `read_file` で対象の絶対パスを直接読むか、ディレクトリ一覧を確認するよう要求する。
+
 ## Dashboard PTY Control Sequence Submitted As Prompt
 
 - 初回観測日: 2026-06-25
