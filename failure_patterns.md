@@ -1,5 +1,13 @@
 # Hermes Failure Patterns
 
+## Colab Playwright Session Requires Google Password
+
+- 初回観測日: 2026-06-28
+- 状態: 候補
+- 兆候: PlaywrightでColabノートブックは開けるが、右上が `ログイン` のままで、対象アカウント選択後にGoogleアカウントの `パスワードを入力` 画面へ進む。
+- 影響: Codexだけでは認証を完了できず、Drive mount、A100確認、dashboard起動、課題投入、checkpoint、ランタイム破棄まで進めない。
+- 次回の対策候補: Colabを開いた直後にログイン状態と `変更は保存されません` 表示の有無を確認する。パスワードや2FAが必要な場合はセル実行やdashboard投入を開始せず、認証ブロックとして停止・記録する。
+
 ## Workspace File Search False Negative
 
 - 初回観測日: 2026-06-27
