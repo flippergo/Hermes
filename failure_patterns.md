@@ -47,3 +47,11 @@
 - 兆候: Playwright snapshotや `document.body.innerText` にChat本文が出ない。
 - 影響: Hermesの回答保存が手作業になりやすい。
 - 次回の対策候補: `window.__HERMES_SESSION_TOKEN__` を使い、`X-Hermes-Session-Token` ヘッダ付きで `/api/sessions/{id}/messages` を取得する。
+
+## Dashboard Execution Permission Prompt Is Not Visible In Snapshot
+
+- 初回観測日: 2026-06-28
+- 状態: 対応済み候補
+- 原因: Hermes dashboardのツール実行許可待ちが、Playwright snapshotや `document.body.innerText` では明示的に見えない場合がある。ログ上も長いツール実行中または `Active Sessions: 0/1` のように見え、許可待ちと判別しにくい。
+- 影響: 実画面ではユーザーに実行許可待ちが表示されているのに、Codexが「待っていない」と誤判定するとHermes処理が停止する。今回の2026-06-28手動再実行では、複数回の許可を通した後にpatch、pytest、最終報告まで進んだ。
+- 次回の対策: dashboard許可画面については、ユーザーの実画面報告を最優先する。許可待ちと言われたら、ログやsnapshotで確認できなくても対象dashboardタブに `y` + Enter を送る。許可送信後は `/api/logs` と `/api/sessions/{id}/messages` でツール実行が進んだことを確認する。
